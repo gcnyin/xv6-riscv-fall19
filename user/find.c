@@ -36,13 +36,7 @@ char *fmtname(char *path) {
   return buf;
 }
 
-int main(int argc, char *argv[]) {
-  if (argc != 3) {
-    printf("can not solve parameters");
-    exit();
-  }
-  char *path = argv[1];
-
+void find(char *path, char *target_name) {
   int fd;
   if ((fd = open(path, 0)) < 0) {
     fprintf(2, "can not open path: %s\n", path);
@@ -58,7 +52,6 @@ int main(int argc, char *argv[]) {
 
   char buf[512], *p;
   struct dirent de;
-  char *target_name = argv[2];
 
   if (st.type == T_FILE && st.type == T_DEVICE) {
     printf("can not find file or device");
@@ -82,5 +75,16 @@ int main(int argc, char *argv[]) {
       printf("%s\n", trim(buf));
     }
   }
+  return;
+}
+
+int main(int argc, char *argv[]) {
+  if (argc != 3) {
+    printf("can not solve parameters");
+    exit();
+  }
+  char *path = argv[1];
+  char *target_name = argv[2];
+  find(path, target_name);
   exit();
 }
